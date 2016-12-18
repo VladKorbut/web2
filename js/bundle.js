@@ -1,4 +1,79 @@
-"use strict"
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Employee = require('./Employee.js');
+module.exports = class Designer extends Employee{
+	constructor(name, id, salary, experience){
+		super(name, id, salary);
+		this.experience = experience;
+	}
+	get prop(){
+		return this;
+	}
+	set prop(experience){
+		this.experience = experience;
+	}
+}
+},{"./Employee.js":2}],2:[function(require,module,exports){
+var Person = require('./Person.js');
+module.exports = class Employee extends Person{
+	constructor(name, id, salary) {
+		super(name, id);
+		this.salary = salary;
+	}
+	get prop(){
+		return this;
+	}
+	set prop(salary){
+		this.salary = salary;
+	}
+}
+},{"./Person.js":3}],3:[function(require,module,exports){
+module.exports = class Person{
+	constructor(name, id) {
+		this.name = name;
+		this.id=id;
+	}
+	get prop() {
+        return this;
+    }
+    set prop(name) {
+        this.name = name;
+    }
+}
+},{}],4:[function(require,module,exports){
+var Employee = require('./Employee.js');
+module.exports = class Programmer extends Employee{
+	constructor(name, id, salary, language){
+		super(name, id, salary);
+		this.language = language;
+		this.experience = "<5";
+	}
+	get prop(){
+		return this;
+	}
+	set prop(salary){
+		this.salary = salary;
+	}
+}
+},{"./Employee.js":2}],5:[function(require,module,exports){
+var Programmer = require('./Programmer.js');
+module.exports = class Senior extends Programmer{
+	constructor(name, id, salary, language, experience){
+		super(name, id, salary, language);
+		this.experience = experience;
+	}
+	get prop(){
+		return this;
+	}
+	set prop(experience){
+		this.experience = experience;
+	}
+}
+},{"./Programmer.js":4}],6:[function(require,module,exports){
+var Person = require('./Person.js');
+var Employee = require('./Employee.js');
+var Designer = require('./Designer.js');
+var Programmer = require('./Programmer.js');
+var Senior = require('./Senior.js');
 let arr=[], id=0;
 let addUser = function(id){
 	$('#container').append(
@@ -37,7 +112,7 @@ let bindDelete = function(){
 	});
 }
 var deleteUser = function(id){
-	arr[id]=null;
+	arr[id[id]]=null;
 	$("#"+id).detach();
 }
 let bindModify = function(){
@@ -46,7 +121,6 @@ let bindModify = function(){
 	});
 }
 let bindCancel = function(){
-	console.log(arr);
 	$(".cancel").bind('click', function(event){
 		deleteUser(event.target.id);
 	});
@@ -94,7 +168,28 @@ var modifyUser = function(id){
 	bindCancel();
 	bindApply(id);
 }
+document.addEventListener("DOMContentLoaded", function(){
+	$("#employee").click( function(){
+		let item = new Employee('', id , '');
+		arr[id]=item;
+		addUser(id++);
+		bindModify();
+		bindDelete();
+	});
+	$("#designer").click( function(){
+		let item = new Designer('', id , '', '');
+		arr[id]=item;
+		addUser(id++);
+		bindModify();
+		bindDelete();
+	});
+	$("#programmer").click( function(){
+		let item = new Programmer('', id , '', '');
+		arr[id]=item;
+		addUser(id++);
+		bindModify();
+		bindDelete();
+	});
 
-	
-	
-	
+});
+},{"./Designer.js":1,"./Employee.js":2,"./Person.js":3,"./Programmer.js":4,"./Senior.js":5}]},{},[6])
