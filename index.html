@@ -3,14 +3,12 @@
 	<head>
 		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="node_modules/bootstrap/js/tab.js"></script>
 		<script type="text/javascript" src="node_modules/bootstrap/js/dropdown.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
-
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -21,9 +19,9 @@
 					<li class="dropdown">
 						<button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-plus"></i></button>
 						<ul class="dropdown-menu">
-							<li><a href="#" id="employee">Работник</a></li>
-							<li><a href="#" id="designer">Дизайнер</a></li>
-							<li><a href="#" id="programmer">Программист</a></li>
+							<li><a class="add" href="#" id="employee">Работник</a></li>
+							<li><a class="add" href="#" id="designer">Дизайнер</a></li>
+							<li><a class="add" href="#" id="programmer">Программист</a></li>
 						</ul>
 					</li>
 				</div>
@@ -36,5 +34,6 @@
 		</div>
 	</body>
 	<script type="text/javascript" src='js/class.js'></script>
-		<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/methods.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 </html>
