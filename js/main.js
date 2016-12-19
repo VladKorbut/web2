@@ -3,6 +3,7 @@ var Employee = require('./Employee.js');
 var Designer = require('./Designer.js');
 var Programmer = require('./Programmer.js');
 var Senior = require('./Senior.js');
+var Company = require('./Company.js');
 let arr=[], id=0;
 let addUser = function(id){
 	$('#container').append(
@@ -10,13 +11,13 @@ let addUser = function(id){
 			<div class="thumbnail">
 				<div class="caption">
 				<div class="form-group">
-			<label for="name">Name:</label>
+			<label for="name">Имя:</label>
 			<input id="name" type="text" class="form-control" value="`+arr[id].name+`">
-			<label for="salary">salary:</label>
+			<label for="salary">Зарплата:</label>
 			<input id="salary" type="text" class="form-control" value ="`+arr[id].salary+`">
-			<label for="language">language:</label>
+			<label for="language">Язык:</label>
 			<input id="language" type="text" class="form-control" value ="`+(arr[id].language ? arr[id].language : '')+`">
-			<label for="experience">experience:</label>
+			<label for="experience">Опыт:</label>
 			<input id="experience" type="text" class="form-control" value ="`+(arr[id].experience? arr[id].experience : '')+`">
 		</div>
 		<p>
@@ -29,10 +30,12 @@ let addUser = function(id){
 	);
 	bindCancel();
 	bindApply(id);
+	addToCompany(id);
+	calculateSalary();
 }
 let bindApply = function(id){
 	$('.apply').bind('click', function(){
-			applyModification(id);
+		applyModification(id);
 	})
 }
 let bindDelete = function(){
@@ -40,9 +43,15 @@ let bindDelete = function(){
 		deleteUser(event.target.id);
 	});
 }
+let calculateSalary =function(){
+	$('.salary').html(company.getSalary());
+}
 var deleteUser = function(id){
 	arr[id[id]]=null;
+	company.deleleEmployee(id);
 	$("#"+id).detach();
+
+	calculateSalary();
 }
 let bindModify = function(){
 	$(".modify").bind('click', function(event){
@@ -54,6 +63,17 @@ let bindCancel = function(){
 		deleteUser(event.target.id);
 	});
 }
+let company = new Company("SoftCo");
+let bindAddToCompany = function(){
+	$(".addToCompany").bind('click', function(event){
+		addToCompany(event.target.id);
+	});
+}
+let addToCompany = function(id){
+	company.addEmpoyee(id, arr[id].salary);
+	calculateSalary();
+}
+
 var applyModification = function(id){
 	if (!($('#'+id+' #name').val() && $('#'+id+' #salary').val())){
 		alert('Поля имя и зарплата должны быть заполнены');
@@ -63,7 +83,7 @@ var applyModification = function(id){
 		arr[id].language = $('#'+id+' #language').val();
 		arr[id].experience = $('#'+id+' #experience').val();
 		$('#'+id+' > .thumbnail > .caption').html(
-			`<h3>`+arr[id].name+`</h3>
+			`<h3>`+arr[id].name+`<a id="`+arr[id].id+`" class='btn btn-default pull-right addToCompany'>+</a></h3>
 						<p>Зарплата:`+arr[id].salary+`</p>
 					   <p>
 					   Язык программирования:`+(arr[id].language ? arr[id].language : 'не задано')+`</p>
@@ -76,6 +96,7 @@ var applyModification = function(id){
 		)
 		bindModify(id);
 		bindDelete();
+		bindAddToCompany();
 	}
 }
 var modifyUser = function(id){
@@ -119,5 +140,4 @@ document.addEventListener("DOMContentLoaded", function(){
 		bindModify();
 		bindDelete();
 	});
-
 });

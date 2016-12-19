@@ -1,4 +1,30 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = class Company{
+	constructor(name){
+		this.name = name;
+		this.arr = [];
+		this.salary = [];
+	}
+	get prop(){
+		return this;
+	}
+	addEmpoyee(item, salary){
+		console.log(item, this.arr, this.salary);
+		this.arr.push(parseInt(item));
+		this.salary.push(parseInt(salary));
+	}
+	deleleEmployee(item){
+		console.log(item, this.arr, this.salary);
+		this.arr.splice(this.arr.indexOf(item), 1);
+	}
+	getSalary(){
+		var salary = this.salary.reduce(function(sum, current) {
+		  return sum + current;
+		}, 0);
+		return salary;
+	}
+}
+},{}],2:[function(require,module,exports){
 var Employee = require('./Employee.js');
 module.exports = class Designer extends Employee{
 	constructor(name, id, salary, experience){
@@ -12,7 +38,7 @@ module.exports = class Designer extends Employee{
 		this.experience = experience;
 	}
 }
-},{"./Employee.js":2}],2:[function(require,module,exports){
+},{"./Employee.js":3}],3:[function(require,module,exports){
 var Person = require('./Person.js');
 module.exports = class Employee extends Person{
 	constructor(name, id, salary) {
@@ -26,7 +52,7 @@ module.exports = class Employee extends Person{
 		this.salary = salary;
 	}
 }
-},{"./Person.js":3}],3:[function(require,module,exports){
+},{"./Person.js":4}],4:[function(require,module,exports){
 module.exports = class Person{
 	constructor(name, id) {
 		this.name = name;
@@ -39,7 +65,7 @@ module.exports = class Person{
         this.name = name;
     }
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var Employee = require('./Employee.js');
 module.exports = class Programmer extends Employee{
 	constructor(name, id, salary, language){
@@ -54,7 +80,7 @@ module.exports = class Programmer extends Employee{
 		this.salary = salary;
 	}
 }
-},{"./Employee.js":2}],5:[function(require,module,exports){
+},{"./Employee.js":3}],6:[function(require,module,exports){
 var Programmer = require('./Programmer.js');
 module.exports = class Senior extends Programmer{
 	constructor(name, id, salary, language, experience){
@@ -68,12 +94,13 @@ module.exports = class Senior extends Programmer{
 		this.experience = experience;
 	}
 }
-},{"./Programmer.js":4}],6:[function(require,module,exports){
+},{"./Programmer.js":5}],7:[function(require,module,exports){
 var Person = require('./Person.js');
 var Employee = require('./Employee.js');
 var Designer = require('./Designer.js');
 var Programmer = require('./Programmer.js');
 var Senior = require('./Senior.js');
+var Company = require('./Company.js');
 let arr=[], id=0;
 let addUser = function(id){
 	$('#container').append(
@@ -81,13 +108,13 @@ let addUser = function(id){
 			<div class="thumbnail">
 				<div class="caption">
 				<div class="form-group">
-			<label for="name">Name:</label>
+			<label for="name">Имя:</label>
 			<input id="name" type="text" class="form-control" value="`+arr[id].name+`">
-			<label for="salary">salary:</label>
+			<label for="salary">Зарплата:</label>
 			<input id="salary" type="text" class="form-control" value ="`+arr[id].salary+`">
-			<label for="language">language:</label>
+			<label for="language">Язык:</label>
 			<input id="language" type="text" class="form-control" value ="`+(arr[id].language ? arr[id].language : '')+`">
-			<label for="experience">experience:</label>
+			<label for="experience">Опыт:</label>
 			<input id="experience" type="text" class="form-control" value ="`+(arr[id].experience? arr[id].experience : '')+`">
 		</div>
 		<p>
@@ -100,10 +127,12 @@ let addUser = function(id){
 	);
 	bindCancel();
 	bindApply(id);
+	addToCompany(id);
+	calculateSalary();
 }
 let bindApply = function(id){
 	$('.apply').bind('click', function(){
-			applyModification(id);
+		applyModification(id);
 	})
 }
 let bindDelete = function(){
@@ -111,9 +140,15 @@ let bindDelete = function(){
 		deleteUser(event.target.id);
 	});
 }
+let calculateSalary =function(){
+	$('.salary').html(company.getSalary());
+}
 var deleteUser = function(id){
 	arr[id[id]]=null;
+	company.deleleEmployee(id);
 	$("#"+id).detach();
+
+	calculateSalary();
 }
 let bindModify = function(){
 	$(".modify").bind('click', function(event){
@@ -125,6 +160,17 @@ let bindCancel = function(){
 		deleteUser(event.target.id);
 	});
 }
+let company = new Company("SoftCo");
+let bindAddToCompany = function(){
+	$(".addToCompany").bind('click', function(event){
+		addToCompany(event.target.id);
+	});
+}
+let addToCompany = function(id){
+	company.addEmpoyee(id, arr[id].salary);
+	calculateSalary();
+}
+
 var applyModification = function(id){
 	if (!($('#'+id+' #name').val() && $('#'+id+' #salary').val())){
 		alert('Поля имя и зарплата должны быть заполнены');
@@ -134,7 +180,7 @@ var applyModification = function(id){
 		arr[id].language = $('#'+id+' #language').val();
 		arr[id].experience = $('#'+id+' #experience').val();
 		$('#'+id+' > .thumbnail > .caption').html(
-			`<h3>`+arr[id].name+`</h3>
+			`<h3>`+arr[id].name+`<a id="`+arr[id].id+`" class='btn btn-default pull-right addToCompany'>+</a></h3>
 						<p>Зарплата:`+arr[id].salary+`</p>
 					   <p>
 					   Язык программирования:`+(arr[id].language ? arr[id].language : 'не задано')+`</p>
@@ -147,6 +193,7 @@ var applyModification = function(id){
 		)
 		bindModify(id);
 		bindDelete();
+		bindAddToCompany();
 	}
 }
 var modifyUser = function(id){
@@ -190,6 +237,5 @@ document.addEventListener("DOMContentLoaded", function(){
 		bindModify();
 		bindDelete();
 	});
-
 });
-},{"./Designer.js":1,"./Employee.js":2,"./Person.js":3,"./Programmer.js":4,"./Senior.js":5}]},{},[6])
+},{"./Company.js":1,"./Designer.js":2,"./Employee.js":3,"./Person.js":4,"./Programmer.js":5,"./Senior.js":6}]},{},[7])
