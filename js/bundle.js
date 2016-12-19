@@ -16,6 +16,7 @@ module.exports = class Company{
 	deleleEmployee(item){
 		console.log(item, this.arr, this.salary);
 		this.arr.splice(this.arr.indexOf(item), 1);
+		this.salary.splice(this.arr.indexOf(item), 1);
 	}
 	getSalary(){
 		var salary = this.salary.reduce(function(sum, current) {
@@ -127,8 +128,6 @@ let addUser = function(id){
 	);
 	bindCancel();
 	bindApply(id);
-	addToCompany(id);
-	calculateSalary();
 }
 let bindApply = function(id){
 	$('.apply').bind('click', function(){
@@ -140,14 +139,11 @@ let bindDelete = function(){
 		deleteUser(event.target.id);
 	});
 }
-let calculateSalary =function(){
-	$('.salary').html(company.getSalary());
-}
+
 var deleteUser = function(id){
 	arr[id[id]]=null;
 	company.deleleEmployee(id);
 	$("#"+id).detach();
-
 	calculateSalary();
 }
 let bindModify = function(){
@@ -165,6 +161,10 @@ let bindAddToCompany = function(){
 	$(".addToCompany").bind('click', function(event){
 		addToCompany(event.target.id);
 	});
+}
+let calculateSalary =function(){
+	console.log(company.getSalary());
+	$('.salary').html(company.getSalary());
 }
 let addToCompany = function(id){
 	company.addEmpoyee(id, arr[id].salary);

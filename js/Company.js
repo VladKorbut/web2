@@ -15,6 +15,7 @@ module.exports = class Company{
 	deleleEmployee(item){
 		console.log(item, this.arr, this.salary);
 		this.arr.splice(this.arr.indexOf(item), 1);
+		this.salary.splice(this.arr.indexOf(item), 1);
 	}
 	getSalary(){
 		var salary = this.salary.reduce(function(sum, current) {
