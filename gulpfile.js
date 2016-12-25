@@ -2,8 +2,8 @@ var gulp = require('gulp'),
 	browserify = require('browserify'),
 	source = require('vinyl-source-stream')
 	webserver = require('gulp-webserver');
-	gulp.task('browserify', function() {
-return browserify('./js/main.js') 
+gulp.task('browserify', function() {
+	return browserify('./js/main.js') 
         .bundle()
         .pipe(source('bundle.js'))
         .pipe(gulp.dest('./js'))
